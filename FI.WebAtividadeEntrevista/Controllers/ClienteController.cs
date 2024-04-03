@@ -39,6 +39,17 @@ namespace WebAtividadeEntrevista.Controllers
             else
             {
                 
+                if(!bo.VerificarCpf(model.CPF))
+                {
+                    Response.StatusCode = 400;
+                    return Json("CPF inválido");
+                }
+                else if(bo.VerificarExistencia(model.CPF, model.Id))
+                {
+                    Response.StatusCode = 400;
+                    return Json("CPF já cadastrado no sistema");
+                }
+
                 model.Id = bo.Incluir(new Cliente()
                 {                    
                     CEP = model.CEP,
@@ -49,7 +60,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = model.Nacionalidade,
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone
+                    Telefone = model.Telefone,
+                    CPF = model.CPF
                 });
 
            
@@ -73,6 +85,18 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
+
+                if (!bo.VerificarCpf(model.CPF))
+                {
+                    Response.StatusCode = 400;
+                    return Json("CPF inválido");
+                }
+                else if (bo.VerificarExistencia(model.CPF, model.Id))
+                {
+                    Response.StatusCode = 400;
+                    return Json("CPF já cadastrado no sistema");
+                }
+
                 bo.Alterar(new Cliente()
                 {
                     Id = model.Id,
@@ -84,9 +108,11 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = model.Nacionalidade,
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone
+                    Telefone = model.Telefone,
+                    CPF = model.CPF
                 });
-                               
+
+                Response.StatusCode = 200;
                 return Json("Cadastro alterado com sucesso");
             }
         }
@@ -111,7 +137,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = cliente.Nacionalidade,
                     Nome = cliente.Nome,
                     Sobrenome = cliente.Sobrenome,
-                    Telefone = cliente.Telefone
+                    Telefone = cliente.Telefone,
+                    CPF = cliente.CPF
                 };
 
             
