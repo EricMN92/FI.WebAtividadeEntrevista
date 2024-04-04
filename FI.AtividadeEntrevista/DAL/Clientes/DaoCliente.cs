@@ -20,7 +20,7 @@ namespace FI.AtividadeEntrevista.DAL
         internal long Incluir(DML.Cliente cliente)
         {
             List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
-            
+
             parametros.Add(new System.Data.SqlClient.SqlParameter("Nome", cliente.Nome));
             parametros.Add(new System.Data.SqlClient.SqlParameter("Sobrenome", cliente.Sobrenome));
             parametros.Add(new System.Data.SqlClient.SqlParameter("Nacionalidade", cliente.Nacionalidade));
@@ -160,6 +160,30 @@ namespace FI.AtividadeEntrevista.DAL
                     cli.Sobrenome = row.Field<string>("Sobrenome");
                     cli.Telefone = row.Field<string>("Telefone");
                     cli.CPF = row.Field<string>("CPF");
+
+                    List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
+
+                    parametros.Add(new System.Data.SqlClient.SqlParameter("IdCliente", cli.Id));
+
+                    DataSet ds2 = base.Consultar("FI_SP_ConsBenef", parametros);
+                    if (ds2 != null && ds2.Tables != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
+                    {
+                        List<Beneficiario> lista2 = new List<Beneficiario>();
+
+                        foreach (DataRow row2 in ds2.Tables[0].Rows)
+                        {
+                            Beneficiario ben = new Beneficiario();
+                            ben.Id = row2.Field<long>("Id");
+                            ben.CPF = row2.Field<string>("CPF");
+                            ben.Nome = row2.Field<string>("Nome");
+                            ben.IdCliente = row2.Field<long>("IdCliente");
+
+                            lista2.Add(ben);
+                        }
+
+                        cli.Beneficiarios = lista2;
+                    }
+
                     lista.Add(cli);
                 }
             }
