@@ -28,10 +28,12 @@
         $row.remove();
         $("#CPFBeneficiario").val(cpf);
         $("#NomeBeneficiario").val(nome);
+        $("#mensagem").text('');
     });
 
     $('#table').on('click', '.excluir-btn', function () {
         $(this).closest('tr').remove();
+        $("#mensagem").text('');
     });
 
     function preencheObj() {
@@ -45,8 +47,19 @@
 
     function verificarCampos(cpf, nome) {
         msg = "";
-        if (!TestaCPF(cpf.replace(".", "").replace(".", "").replace("-", "")) || cpf == "") {
+        if (!testaCPF(cpf.replace(".", "").replace(".", "").replace("-", "")) || cpf == "") {
             msg += "Cpf inválido";
+        }
+
+        var cpfDuplicado = verificaDuplicacao(cpf);
+
+        if (cpfDuplicado != '') {
+            if (msg == "") {
+                msg += cpfDuplicado;
+            }
+            else {
+                msg += ", " + cpfDuplicado
+            }
         }
 
         if (nome == "") {
@@ -56,8 +69,6 @@
             else {
                 msg += ", Nome é obrigatório"
             }
-
-            return msg;
         }
 
         return msg;
@@ -66,9 +77,10 @@
     function limparCampos() {
         $("#CPFBeneficiario").val('');
         $("#NomeBeneficiario").val('');
+        $("#mensagem").text('');
     }
 
-    function TestaCPF(strCPF) {
+    function testaCPF(strCPF) {
         var Soma;
         var Resto;
         Soma = 0;
@@ -87,5 +99,36 @@
         if ((Resto == 10) || (Resto == 11)) Resto = 0;
         if (Resto != parseInt(strCPF.substring(10, 11))) return false;
         return true;
+    }
+
+    function verificaDuplicacao(strCPF) {
+
+        var cpfEncontrado = false;
+
+        $('#table tbody tr').each(function () {
+            // Acessar todas as células da linha atual
+            var celulas = $(this).find('td');
+
+            // Iterar sobre todas as células da linha atual
+            celulas.each(function () {
+                // Acessar o conteúdo de cada célula
+                var conteudoCelula = $(this).text();
+
+                if (conteudoCelula == strCPF) {
+                    cpfEncontrado = true;
+                    return false; // Isso interrompe o loop externo
+                }
+            });
+
+            if (cpfEncontrado) {
+                return false; // Isso interrompe o loop externo
+            }
+        });
+
+        if (cpfEncontrado) {
+            return 'CPF já adicionado';
+        } else {
+            return '';
+        }
     }
 }); 
