@@ -1,6 +1,8 @@
 ﻿
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
+<script type="text/javascript" src="~/Scripts/Beneficiarios/FI.Beneficiarios.js"></script>
 
 
 <form id="formCadastro" method="post">
@@ -112,54 +114,41 @@
                 </button>
             </div>
             <div class="modal-body">
-        <form id="formCadastro" method="post">
-            <div class="row">
-                <div class="col-md-5">
-                    <label for="CPFBeneficiario">CPF:</label>
-                </div>
-                <div class="col-md-5">
-                    <label for="NomeBeneficiario">Nome:</label>
-                </div>             
-            </div>
+                <span id="mensagem" style="color:red; font-weight:bold"></span>
                 <div class="row">
                     <div class="col-md-5">
-                        <div class="form-group">
-                            <input required="required" type="text" class="form-control" id="CPFBeneficiario" name="CPFBeneficiario" placeholder="Ex.: 010.011.111-00" maxlength="14">
+                        <label for="CPFBeneficiario">CPF:</label>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="NomeBeneficiario">Nome:</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div>
+                            <input required="required" type="text" id="CPFBeneficiario" name="CPFBeneficiario" placeholder="Ex.: 010.011.111-00" maxlength="14">
                         </div>
                     </div>
                     <div class="col-md-5">
-                        <div class="form-group">
-                            <input required="required" type="text" class="form-control" id="NomeBeneficiario" name="NomeBeneficiario" placeholder="Ex.: João" maxlength="50">
+                        <div>
+                            <input required="required" type="text" id="NomeBeneficiario" name="NomeBeneficiario" placeholder="Ex.: João" maxlength="50">
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-success" style="vertical-align:central">Incluir</button>
+                        <button class="btn btn-success" id="addRow">Incluir</button>
                     </div>
                 </div>
-        </form>
             </div>
             <div class="modal-footer">
-                <table class="table">
+
+                <table id="table" class="table">
                     <thead>
                         <tr>
-                            <th scope="col">CPF</th>
-                            <th scope="col">Nome</th>
+                            <th style="text-align:left">CPF</th>
+                            <th style="text-align:left">Nome</th>
                         </tr>
                     </thead>
-                    <tbody style="text-align:start">
-                        <tr>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                        </tr>
-                        <tr>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                        </tr>
-                        <tr>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="tableBody"></tbody>
                 </table>
 
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
