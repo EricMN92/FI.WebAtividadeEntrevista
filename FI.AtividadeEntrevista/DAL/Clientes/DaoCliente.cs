@@ -136,6 +136,12 @@ namespace FI.AtividadeEntrevista.DAL
             {
                 IncluirBenef(cliente.Beneficiarios, cliente.Id);
             }
+            else
+            {
+                parametros.Clear();
+                parametros.Add(new System.Data.SqlClient.SqlParameter("IdCliente", cliente.Id));
+                base.Executar("FI_SP_DelBenef", parametros);
+            }
         }
 
 
