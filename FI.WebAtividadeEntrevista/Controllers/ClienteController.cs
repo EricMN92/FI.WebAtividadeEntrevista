@@ -61,7 +61,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
-                    CPF = model.CPF.Replace(".","").Replace("-","")
+                    CPF = model.CPF.Replace(".","").Replace("-",""),
+                    Beneficiarios = model.Beneficiarios
                 });
 
            
@@ -109,7 +110,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
-                    CPF = model.CPF.Replace(".", "").Replace("-", "")
+                    CPF = model.CPF.Replace(".", "").Replace("-", ""),
+                    Beneficiarios = model.Beneficiarios
                 });
 
                 return Json("Cadastro alterado com sucesso");
@@ -137,7 +139,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = cliente.Nome,
                     Sobrenome = cliente.Sobrenome,
                     Telefone = cliente.Telefone,
-                    CPF = Convert.ToUInt64(cliente.CPF).ToString(@"000\.000\.000\-00")
+                    CPF = Convert.ToUInt64(cliente.CPF).ToString(@"000\.000\.000\-00"),
+                    Beneficiarios = cliente.Beneficiarios
                 };
 
             

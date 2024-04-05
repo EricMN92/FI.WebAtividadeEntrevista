@@ -22,12 +22,12 @@ namespace FI.AtividadeEntrevista.DML
         public string CPF { get; set; }
 
         /// <summary>
-        /// Cidade
+        /// Nome
         /// </summary>
         public string Nome { get; set; }
 
         /// <summary>
-        /// Cidade
+        /// IdCliente
         /// </summary>
         public long IdCliente { get; set; }
     }

@@ -36,6 +36,12 @@ namespace FI.AtividadeEntrevista.DAL
             long ret = 0;
             if (ds.Tables[0].Rows.Count > 0)
                 long.TryParse(ds.Tables[0].Rows[0][0].ToString(), out ret);
+
+            if (ret > 0 && cliente.Beneficiarios != null)
+            {
+                IncluirBenef(cliente.Beneficiarios, ret);
+            }
+
             return ret;
         }
 
@@ -125,6 +131,11 @@ namespace FI.AtividadeEntrevista.DAL
             parametros.Add(new System.Data.SqlClient.SqlParameter("CPF", cliente.CPF));
 
             base.Executar("FI_SP_AltCliente", parametros);
+
+            if(cliente.Beneficiarios != null)
+            {
+                IncluirBenef(cliente.Beneficiarios, cliente.Id);
+            }
         }
 
 
@@ -163,7 +174,7 @@ namespace FI.AtividadeEntrevista.DAL
 
                     List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
 
-                    parametros.Add(new System.Data.SqlClient.SqlParameter("IdCliente", cli.Id));
+                    parametros.Add(new System.Data.SqlClient.SqlParameter("IdCLiente", cli.Id));
 
                     DataSet ds2 = base.Consultar("FI_SP_ConsBenef", parametros);
                     if (ds2 != null && ds2.Tables != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
@@ -189,6 +200,24 @@ namespace FI.AtividadeEntrevista.DAL
             }
 
             return lista;
+        }
+
+        internal void IncluirBenef(List<Beneficiario> lista, long idCliente)
+        {
+            List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
+
+            parametros.Clear();
+            parametros.Add(new System.Data.SqlClient.SqlParameter("IdCliente", idCliente));
+            base.Executar("FI_SP_DelBenef", parametros);
+
+                for (int i = 0; i < lista.Count; i++)
+                {
+                    parametros.Clear();
+                    parametros.Add(new System.Data.SqlClient.SqlParameter("Cpf", lista[i].CPF.Replace(".", "").Replace("-", "")));
+                    parametros.Add(new System.Data.SqlClient.SqlParameter("Nome", lista[i].Nome));
+                    parametros.Add(new System.Data.SqlClient.SqlParameter("IdCliente", idCliente));
+                    base.Executar("FI_SP_IncBenef", parametros);
+                }          
         }
 
         internal bool VerificarCpf(string cpf)
